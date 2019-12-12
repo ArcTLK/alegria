@@ -1,11 +1,15 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Tab One
+      Categories
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-list>
+    <ion-item *ngFor="let category of categories" (click)="openCategory(category)" button="true" detail="true" lines="full">
+      <ion-label>{{ category.name }}</ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
