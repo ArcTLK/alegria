@@ -8,14 +8,14 @@ import { Router } from '@angular/router';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page implements OnInit {
-  private categories: any;
+  public categories: any;
   constructor(private categoryService: CategoryService, private router: Router) {}
 
   ngOnInit() {
     // fetch category data
     this.categories = this.categoryService.getCategories();
   }
-  private openCategory(category: any) {
+  openCategory(category: any) {
     this.categoryService.selectedCategory = category;
     this.router.navigateByUrl('/category');
   }

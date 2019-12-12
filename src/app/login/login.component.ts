@@ -14,7 +14,7 @@ declare const gapi: any;
 })
 
 export class LoginComponent implements OnInit {
-  private native: Boolean;
+  public native: Boolean;
 
   constructor(
     private platform: Platform,

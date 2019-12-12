@@ -7,7 +7,7 @@ import { CategoryService } from '../category.service';
   styleUrls: ['./category.page.scss'],
 })
 export class CategoryPage implements OnInit {
-  private category: any;
+  public category: any;
   constructor(private categoryService: CategoryService) { }
 
   ngOnInit() {
