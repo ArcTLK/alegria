@@ -2,29 +2,47 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
 
+export type Event = {
+  name: string,
+  description: string
+};
+
+export type Category = {
+  name: string,
+  events: Event[]
+};
+
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
-  private categories: any = [];
-  private _selectedCategory: any;
+  private categories: Category[] = [];
   constructor(private http: HttpClient) { }
 
-  getCategories() {
-    this.http.get(environment.apiUrl + '/categories')
-    .subscribe((data: any[]) => {
-      this.categories.push(...data);
-    }, error => {
+  async load() {
+    // fetch categories from server
+    try {
+      const categories: any = await this.http.get(environment.apiUrl + '/categories').toPromise();
+      this.categories.push(...categories);
+    }
+    catch(error) {
       console.log(error);
-    });
+    }
+  }
+
+  getCategories() {
     return this.categories;
   }
 
-  set selectedCategory(category: any) {
-    this._selectedCategory = category;
-  }
-  get selectedCategory() {
-    return this._selectedCategory;
+  getCategoryByIndex(index: number) {
+    return this.categories[index];
   }
 
+  getNumberOfCategories() {
+    return this.categories.length;
+  }
+}
+
+export function loadCategoriesFactory(categoryService: CategoryService) {
+  return () => categoryService.load();
 }

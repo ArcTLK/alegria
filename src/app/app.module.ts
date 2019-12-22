@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { RouteReuseStrategy } from '@angular/router';
@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { CategoryService, loadCategoriesFactory } from './category.service';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,9 @@ import { GooglePlus } from '@ionic-native/google-plus/ngx';
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     NativeStorage,
-    GooglePlus
+    GooglePlus,
+    CategoryService,
+    { provide: APP_INITIALIZER, useFactory: loadCategoriesFactory, deps: [CategoryService], multi: true }
   ],
   bootstrap: [AppComponent]
 })
