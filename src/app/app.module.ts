@@ -12,7 +12,13 @@ import { LoginComponent } from './login/login.component';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Network } from '@ionic-native/network/ngx';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireFunctionsModule } from '@angular/fire/functions';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { CategoryService, loadCategoriesFactory } from './category.service';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -24,7 +30,12 @@ import { CategoryService, loadCategoriesFactory } from './category.service';
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+    AngularFirestoreModule,
+    AngularFireFunctionsModule,
+    AngularFireMessagingModule
   ],
   providers: [
     SplashScreen,
