@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -12,7 +13,8 @@ import { PopoverMenuComponent } from '../popover-menu/popover-menu.component';
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule
+    IonicModule,
+    RouterModule
   ],
   declarations: [
     HeaderComponent,
