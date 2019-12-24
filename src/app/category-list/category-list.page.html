@@ -2,7 +2,7 @@
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let category of categories; index as id" [routerLink]="['/category', id]" button="true" detail="true" lines="full">
+    <ion-item *ngFor="let category of categories; index as id" [routerLink]="['/categories', id]" button="true" detail="true" lines="full">
       <ion-label>{{ category.name }}</ion-label>
     </ion-item>
   </ion-list>

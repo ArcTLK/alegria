@@ -7,12 +7,17 @@ const routes: Routes = [
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
   },
   {
-    path: '',
+    path: 'categories',
     loadChildren: () => import('./category-list/category-list.module').then( m => m.CategoryListPageModule)
   },
   {
-    path: 'category/:id',
+    path: 'categories/:id',
     loadChildren: () => import('./category/category.module').then( m => m.CategoryPageModule)
+  },
+  {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
   }
 ];
 @NgModule({

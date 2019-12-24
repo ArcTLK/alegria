@@ -4,5 +4,13 @@
       <ion-back-button defaultHref=""></ion-back-button>
     </ion-buttons>
     <ion-title>{{ title }}</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button size="small" shape="round">
+        <ion-icon name="qr-scanner"></ion-icon>
+      </ion-button>
+      <ion-button size="small" shape="round" (click)="openMenu($event)">
+        <ion-icon name="menu"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
