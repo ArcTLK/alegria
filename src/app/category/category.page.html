@@ -1,11 +1,4 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref=""></ion-back-button>
-    </ion-buttons>
-    <ion-title>{{ category.name }}</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header [title]="category.name"></app-header>
 
 <ion-content>
   <ion-card *ngFor="let event of category.events">
