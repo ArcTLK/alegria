@@ -1,5 +1,10 @@
 <app-header [title]="'Admin Portal'"></app-header>
 
 <ion-content>
+  <div *ngIf="!isAdmin">
+    <br>
+    <br>
+    <h1 class="typewriter">Hmm.. you don't seem to be an admin...</h1>
+  </div>
 
 </ion-content>

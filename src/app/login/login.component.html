@@ -1,11 +1,1 @@
-<script *ngIf="!native" src="https://apis.google.com/js/platform.js?onload=initAuth2" async defer></script>
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Login</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content class="ion-padding">
-  <ion-button *ngIf="native" expand="block" color="danger" (click)="doGoogleLogin()">Google Login</ion-button>
-
-</ion-content>
+<ion-button (click)="login()" expand="block">Sign in with Google</ion-button>

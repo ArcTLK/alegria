@@ -28,7 +28,6 @@
     "@ionic-native/status-bar": "^5.18.0",
     "@ionic/angular": "^4.11.7",
     "cordova-android": "^8.1.0",
-    "cordova-browser": "6.0.0",
     "cordova-ios": "^5.1.1",
     "cordova-plugin-googleplus": "^8.2.1",
     "cordova-plugin-nativestorage": "^2.3.2",
@@ -88,7 +87,7 @@
       "cordova-plugin-network-information": {},
       "cordova-plugin-googleplus": {
         "REVERSED_CLIENT_ID": "com.googleusercontent.apps.333534123809-2qf0eaumko199f6n97ddqd59q2pdhsnc",
-        "WEB_APPLICATION_CLIENT_ID": "333534123809-2qf0eaumko199f6n97ddqd59q2pdhsnc.apps.googleusercontent.com",
+        "WEB_APPLICATION_CLIENT_ID": "333534123809-gt4vitsh0mganrsoja8et01ofa4et8m6.apps.googleusercontent.com",
         "PLAY_SERVICES_VERSION": "15.0.1"
       }
     },

@@ -8,6 +8,7 @@ import { AdminPageRoutingModule } from './admin-routing.module';
 
 import { AdminPage } from './admin.page';
 import { HeaderModule } from '../header/header.module';
+import { LoginModule } from '../login/login.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { HeaderModule } from '../header/header.module';
     FormsModule,
     IonicModule,
     AdminPageRoutingModule,
-    HeaderModule
+    HeaderModule,
+    LoginModule
   ],
   declarations: [AdminPage]
 })

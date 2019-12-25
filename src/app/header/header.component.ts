@@ -24,15 +24,14 @@ export class HeaderComponent implements OnInit {
 
   async openMenu(event: any) {
     // create popover
-    const popover = await this.popoverController.create({
+    var popover = await this.popoverController.create({
         component: PopoverMenuComponent,
+        componentProps: { popover }, // passing popover for closing popover from within
         event: event,
         animated: true,
         showBackdrop: true,
         translucent: true
     });
-    // add event listener to close
-    popover.addEventListener('click', async () => popover.dismiss());
     // display popover
     return await popover.present();
   }
