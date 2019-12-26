@@ -16,7 +16,6 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireFunctionsModule } from '@angular/fire/functions';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
-import { CategoryService, loadCategoriesFactory } from './category.service';
 import { environment } from '../environments/environment';
 
 @NgModule({
@@ -31,7 +30,7 @@ import { environment } from '../environments/environment';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
-    AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence(),
     AngularFireFunctionsModule,
     AngularFireMessagingModule
   ],
@@ -40,9 +39,7 @@ import { environment } from '../environments/environment';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     NativeStorage,
     GooglePlus,
-    Network,
-    CategoryService,
-    { provide: APP_INITIALIZER, useFactory: loadCategoriesFactory, deps: [CategoryService], multi: true }
+    Network
   ],
   bootstrap: [AppComponent]
 })

@@ -1,17 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import { CategoryService } from '../category.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-category-list',
   templateUrl: './category-list.page.html',
   styleUrls: ['./category-list.page.scss'],
 })
-export class CategoryListPage implements OnInit {
-  public categories: any;
-  constructor(private categoryService: CategoryService) {}
+export class CategoryListPage implements OnInit, OnDestroy {
+  public categories: any = [];
+  private categorySubscriber: any;
+  constructor(private angularFirestore: AngularFirestore) {}
 
   ngOnInit() {
     // fetch category data
-    this.categories = this.categoryService.getCategories();
+    this.categorySubscriber = this.angularFirestore.collection('categories').snapshotChanges().subscribe(response => {
+      this.categories = response.map(value => {
+        const document: any = value.payload.doc.data();
+        return {
+          name: document.name,
+          id: value.payload.doc.id
+        };
+      });
+    });
+  }
+  ngOnDestroy() {
+    this.categorySubscriber.unsubscribe();
   }
 }

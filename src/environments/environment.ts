@@ -5,7 +5,6 @@
 export const environment = {
   production: false,
   webClientId: '333534123809-gt4vitsh0mganrsoja8et01ofa4et8m6.apps.googleusercontent.com',
-  apiUrl: 'http://localhost:3000',
   firebase: {
     apiKey: "AIzaSyAcpUdCnPvLhImRY8ZOmVfyPEwwxKspBOY",
     authDomain: "alegria-1575542276247.firebaseapp.com",
