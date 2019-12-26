@@ -22,6 +22,14 @@ const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () => import('./admin/admin.module').then( m => m.AdminPageModule)
+  },
+  {
+    path: 'qr-scanner',
+    loadChildren: () => import('./qr-scanner/qr-scanner.module').then( m => m.QrScannerPageModule)
+  },
+  {
+    path: 'qr-history',
+    loadChildren: () => import('./qr-history/qr-history.module').then( m => m.QrHistoryPageModule)
   }
 ];
 @NgModule({

@@ -2,6 +2,9 @@
   <ion-item button="true" lines="none" detail="true" (click)="navigate('admin')">
     <ion-label>Admin Portal</ion-label>
   </ion-item>
+  <ion-item button="true" lines="none" detail="true" (click)="navigate('qr-history')" *ngIf="signedIn">
+    <ion-label>View Scanned QR Codes</ion-label>
+  </ion-item>
   <ion-item button="true" lines="none" (click)="signOut()" *ngIf="signedIn">
     <ion-label>Sign Out</ion-label>
   </ion-item>
