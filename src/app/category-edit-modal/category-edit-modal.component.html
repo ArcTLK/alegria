@@ -42,6 +42,7 @@
     <ion-item *ngFor="let event of category.events">
       <ion-label>{{ event.name }}</ion-label>
       <ion-button (click)="editEvent(event)">Edit</ion-button>
+      <ion-button (click)="deleteEvent(event)">Delete</ion-button>
     </ion-item>
   </ion-list>
 </ion-content>

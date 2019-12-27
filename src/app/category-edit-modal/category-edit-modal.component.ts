@@ -14,7 +14,7 @@ export class CategoryEditModalComponent implements OnInit, OnDestroy {
   @Input() public category: any;
 
   private userSub: any;
-  private user: any = null;
+  private userId: any = null;
   public editingEvent: any = null;
   private uneditedCopy: any;
   constructor(
@@ -27,7 +27,7 @@ export class CategoryEditModalComponent implements OnInit, OnDestroy {
     // load user info
     this.userSub = this.angularFireAuth.user.subscribe(user => {
       if (user !== null) {
-        this.user = user;
+        this.userId = user.uid;
       }
     });
   }
@@ -94,6 +94,8 @@ export class CategoryEditModalComponent implements OnInit, OnDestroy {
   }
 
   async saveEvent() {
+    this.editingEvent.lastEditedBy = this.userId;
+    this.editingEvent.lastEditedOn = Date.now();
     // save to firestore
     await this.angularFirestore.doc('/categories/' + this.category.id).update({
       events: this.category.events
@@ -114,5 +116,18 @@ export class CategoryEditModalComponent implements OnInit, OnDestroy {
   async cancelEdit() {
     this.editingEvent = null;
     this.category.events = this.uneditedCopy;
+  }
+
+  async deleteEvent(event: any) {
+    this.category.events.splice(this.category.events.findIndex(x => x === event), 1);
+    // save to firestore
+    await this.angularFirestore.doc('/categories/' + this.category.id).update({
+      events: this.category.events
+    });
+    const toast = await this.toastController.create({
+      message: 'Category events have been updated!',
+      duration: 3000
+    });
+    toast.present();
   }
 }
