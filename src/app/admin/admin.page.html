@@ -7,19 +7,57 @@
     <h1 class="typewriter">Hmm.. you don't seem to be an admin...</h1>
   </div>
   <div *ngIf="isAdmin">
-    <ion-item>
-      <ion-label position="floating">Enter Category Name</ion-label>
-      <ion-input type="text" clearInput [(ngModel)]="newCategoryName"></ion-input>
-    </ion-item>
-    <ion-button expand="block" (click)="addCategory()">Add Category</ion-button>
-    <ion-item>
-      <ion-label>Category</ion-label>
-      <ion-select placeholder="Select Category" [(ngModel)]="selectedCategory">
-        <ion-select-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</ion-select-option>
-      </ion-select>
-    </ion-item>
-    <ion-button expand="block" (click)="editCategory()">Edit Category</ion-button>
-    <ion-button expand="block" (click)="deleteCategory()">Delete Category</ion-button>
+    <ion-item-group>
+      <ion-item-divider>
+        <ion-label>Manage Categories</ion-label>
+      </ion-item-divider>
+      <ion-item>
+        <ion-label>New</ion-label>
+        <ion-input clearInput [(ngModel)]="newCategoryName" placeholder="Enter name"></ion-input>
+        <ion-button size="small" (click)="addCategory()">Add</ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-label>Existing</ion-label>
+        <ion-select placeholder="Select Category" [(ngModel)]="selectedCategory">
+          <ion-select-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-button size="block" (click)="editCategory()">Edit</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button size="block" (click)="deleteCategory()">Delete</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item-group>
+    <ion-item-group>
+      <ion-item-divider>
+        <ion-label>Manage Blogs</ion-label>
+      </ion-item-divider>
+      <ion-item>
+        <ion-label>New</ion-label>
+        <ion-input clearInput [(ngModel)]="newBlogTitle" placeholder="Enter name"></ion-input>
+        <ion-button size="small" (click)="addBlog()">Add</ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-label>Existing</ion-label>
+        <ion-select placeholder="Select Blog" [(ngModel)]="selectedBlog">
+          <ion-select-option *ngFor="let blog of blogPosts" [value]="blog.id">{{ blog.title }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-button size="block" (click)="editBlog()">Edit</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button size="block" (click)="deleteBlog()">Delete</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item-group>
   </div>
-
 </ion-content>

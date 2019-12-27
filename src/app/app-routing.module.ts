@@ -34,6 +34,14 @@ const routes: Routes = [
   {
     path: 'qr-history',
     loadChildren: () => import('./qr-history/qr-history.module').then( m => m.QrHistoryPageModule)
+  },
+  {
+    path: 'blogs/:id',
+    loadChildren: () => import('./blog/blog.module').then( m => m.BlogPageModule)
+  },
+  {
+    path: 'blogs',
+    loadChildren: () => import('./blog-list/blog-list.module').then( m => m.BlogListPageModule)
   }
 ];
 @NgModule({

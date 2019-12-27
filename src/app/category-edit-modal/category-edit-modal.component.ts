@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ViewChild } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { ToastController } from '@ionic/angular';
+import { ToastController, IonReorderGroup } from '@ionic/angular';
 
 @Component({
   selector: 'app-category-edit-modal',
@@ -12,6 +12,7 @@ export class CategoryEditModalComponent implements OnInit, OnDestroy {
   // data passed from componentProps
   @Input() private modal: any;
   @Input() public category: any;
+  @ViewChild(IonReorderGroup, { static: true }) reorderGroup: IonReorderGroup;
 
   private userSub: any;
   private userId: any = null;
@@ -126,6 +127,21 @@ export class CategoryEditModalComponent implements OnInit, OnDestroy {
     });
     const toast = await this.toastController.create({
       message: 'Category events have been updated!',
+      duration: 3000
+    });
+    toast.present();
+  }
+  async doReorder(event: any) {
+    // Finish the reorder and position the item in the DOM based on
+    // where the gesture ended. Update the items variable to the
+    // new order of items
+    this.category.events = event.detail.complete(this.category.events);
+    // save to firestore
+    await this.angularFirestore.doc('/categories/' + this.category.id).update({
+      events: this.category.events
+    });
+    const toast = await this.toastController.create({
+      message: 'Category events have been reordered!',
       duration: 3000
     });
     toast.present();

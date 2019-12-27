@@ -16,9 +16,13 @@ export class AdminPage implements OnInit, OnDestroy {
   private userDataSubscription: any = null;
   public categories: any[] = [];
   public selectedCategory: any = null;
+  public selectedBlog: any = null;
   public newCategoryName: string = '';
+  public newBlogTitle: string = '';
   private user: any;
   private categorySubscription: any;
+  private blogSub: any;
+  public blogPosts: any[] = [];
 
   constructor(
     private angularFireAuth: AngularFireAuth,
@@ -34,9 +38,23 @@ export class AdminPage implements OnInit, OnDestroy {
       this.userDataSubscription.unsubscribe();
     }
     this.categorySubscription.unsubscribe();
+    this.blogSub.unsubscribe();
   }
 
   ngOnInit() {
+    // subscribe to blogs
+    this.blogSub = this.angularFirestore.collection('blogs').snapshotChanges().subscribe(response => {
+      this.blogPosts = response.map(value => {
+        const document: any = value.payload.doc.data();
+        return {
+          title: document.title,
+          id: value.payload.doc.id,
+          image: document.image,
+          description: document.description,
+          content: document.content
+        };
+      });
+    });
     // subscribe to categories
     this.categorySubscription = this.angularFirestore.collection('categories').snapshotChanges().subscribe(response => {
       this.categories = response.map(value => {
@@ -103,6 +121,11 @@ export class AdminPage implements OnInit, OnDestroy {
       };
       this.newCategoryName = '';
       await this.angularFirestore.collection('categories').add(categoryData);
+      const toast = await this.toastController.create({
+        message: 'New category added!',
+        duration: 3000
+      });
+      toast.present();
     }
   }
 
@@ -119,6 +142,11 @@ export class AdminPage implements OnInit, OnDestroy {
       else {
         await this.angularFirestore.doc('/categories/' + this.selectedCategory).delete();
         this.selectedCategory = null;
+        const toast = await this.toastController.create({
+          message: 'Category deleted!',
+          duration: 3000
+        });
+        toast.present();
       }
     }
     catch(error) {
@@ -145,6 +173,59 @@ export class AdminPage implements OnInit, OnDestroy {
         }
       });
       return await modal.present();
+    }
+  }
+
+  async addBlog() {
+    // check if name is empty
+    if (this.newBlogTitle == '') {
+      const toast = await this.toastController.create({
+        message: 'Please enter a blog title!',
+        duration: 3000
+      });
+      toast.present();
+    }
+    else {
+      const blogData: any = {
+        title: this.newBlogTitle,
+        addedBy: this.user.id,
+        addedOn: Date.now(),
+        image: '',
+        description: '',
+        content: ''
+      };
+      this.newBlogTitle = '';
+      await this.angularFirestore.collection('blogs').add(blogData);
+      const toast = await this.toastController.create({
+        message: 'New Blog post added!',
+        duration: 3000
+      });
+      toast.present();
+    }
+  }
+
+  async deleteBlog() {
+    try {
+      // check if category is selected
+      if (this.selectedBlog === null) {
+        const toast = await this.toastController.create({
+          message: 'Please select a blog post to delete!',
+          duration: 3000
+        });
+        toast.present();
+      }
+      else {
+        await this.angularFirestore.doc('/blogs/' + this.selectedBlog).delete();
+        this.selectedBlog = null;
+        const toast = await this.toastController.create({
+          message: 'Blog post deleted!',
+          duration: 3000
+        });
+        toast.present();
+      }
+    }
+    catch(error) {
+      console.log(error);
     }
   }
 }
