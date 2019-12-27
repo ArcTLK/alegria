@@ -15,7 +15,7 @@ export class CategoryPage implements OnInit, OnDestroy {
   private categorySubscription: any;
   constructor(
     private angularFirestore: AngularFirestore,
-    private route: ActivatedRoute,
+    private route: ActivatedRoute
   ) { }
   ngOnDestroy() {
     this.paramMapSubscription.unsubscribe();
@@ -27,8 +27,8 @@ export class CategoryPage implements OnInit, OnDestroy {
       // get category data from service
       this.categorySubscription = this.angularFirestore.doc('/categories/' + paramMap.get('id')).snapshotChanges().subscribe(response => {
         this.category = response.payload.data();
+        this.category.id = paramMap.get('id');
       });
     });
   }
-
 }

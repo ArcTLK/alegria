@@ -1,7 +1,7 @@
 <app-header [title]="category.name"></app-header>
 
 <ion-content>
-  <ion-card *ngFor="let event of category.events">
+  <ion-card *ngFor="let event of category.events; index as i" [routerLink]="['/categories', category.id, 'events', i]">
     <ion-card-header>
       <ion-card-title>{{ event.name }}</ion-card-title>
     </ion-card-header>

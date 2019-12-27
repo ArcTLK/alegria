@@ -7,6 +7,7 @@
         <img [src]="'./assets/' + category.icon">
       </ion-thumbnail>
       <ion-label>{{ category.name }}</ion-label>
+      <ion-badge>{{ category.events.length }} events</ion-badge>
     </ion-item>
   </ion-list>
 </ion-content>

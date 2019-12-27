@@ -15,6 +15,10 @@ const routes: Routes = [
     loadChildren: () => import('./category/category.module').then( m => m.CategoryPageModule)
   },
   {
+    path: 'categories/:id/events/:index',
+    loadChildren: () => import('./event/event.module').then( m => m.EventPageModule)
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
