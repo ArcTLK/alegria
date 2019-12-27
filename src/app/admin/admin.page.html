@@ -18,7 +18,7 @@
         <ion-select-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</ion-select-option>
       </ion-select>
     </ion-item>
-    <ion-button expand="block">Edit Category</ion-button>
+    <ion-button expand="block" (click)="editCategory()">Edit Category</ion-button>
     <ion-button expand="block" (click)="deleteCategory()">Delete Category</ion-button>
   </div>
 

@@ -9,7 +9,9 @@ import { AngularFirestore } from '@angular/fire/firestore';
 export class CategoryListPage implements OnInit, OnDestroy {
   public categories: any = [];
   private categorySubscriber: any;
-  constructor(private angularFirestore: AngularFirestore) {}
+  constructor(
+    private angularFirestore: AngularFirestore
+  ) {}
 
   ngOnInit() {
     // fetch category data
@@ -18,7 +20,9 @@ export class CategoryListPage implements OnInit, OnDestroy {
         const document: any = value.payload.doc.data();
         return {
           name: document.name,
-          id: value.payload.doc.id
+          id: value.payload.doc.id,
+          icon: document.icon,
+          events: document.events
         };
       });
     });

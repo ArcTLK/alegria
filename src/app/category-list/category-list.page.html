@@ -3,6 +3,9 @@
 <ion-content>
   <ion-list>
     <ion-item *ngFor="let category of categories" [routerLink]="['/categories', category.id]" button="true" detail="true" lines="full">
+      <ion-thumbnail slot="start">
+        <img [src]="'./assets/' + category.icon">
+      </ion-thumbnail>
       <ion-label>{{ category.name }}</ion-label>
     </ion-item>
   </ion-list>

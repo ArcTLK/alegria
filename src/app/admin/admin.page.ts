@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { PopoverController } from '@ionic/angular';
+import { PopoverController, ModalController, ToastController } from '@ionic/angular';
 import { LoginComponent } from '../login/login.component';
+import { CategoryEditModalComponent } from '../category-edit-modal/category-edit-modal.component';
 
 @Component({
   selector: 'app-admin',
@@ -13,16 +14,18 @@ export class AdminPage implements OnInit, OnDestroy {
   public isAdmin: boolean = false;
   private userSubscription: any;
   private userDataSubscription: any = null;
-  public categories: any = [];
-  public selectedCategory: any;
-  public newCategoryName: string;
+  public categories: any[] = [];
+  public selectedCategory: any = null;
+  public newCategoryName: string = '';
   private user: any;
   private categorySubscription: any;
 
   constructor(
     private angularFireAuth: AngularFireAuth,
     private popoverController: PopoverController,
-    private angularFirestore: AngularFirestore
+    private angularFirestore: AngularFirestore,
+    private modalController: ModalController,
+    private toastController: ToastController
   ) { }
 
   ngOnDestroy() {
@@ -40,7 +43,9 @@ export class AdminPage implements OnInit, OnDestroy {
         const document: any = value.payload.doc.data();
         return {
           name: document.name,
-          id: value.payload.doc.id
+          id: value.payload.doc.id,
+          icon: document.icon,
+          events: document.events
         };
       });
     });
@@ -80,22 +85,66 @@ export class AdminPage implements OnInit, OnDestroy {
   }
 
   async addCategory() {
-    const categoryData: any = {
-      name: this.newCategoryName,
-      addedBy: this.user.id,
-      addedOn: Date.now()
-    };
-    this.newCategoryName = '';
-    await this.angularFirestore.collection('categories').add(categoryData);
+    // check if name is empty
+    if (this.newCategoryName == '') {
+      const toast = await this.toastController.create({
+        message: 'Please enter a category name!',
+        duration: 3000
+      });
+      toast.present();
+    }
+    else {
+      const categoryData: any = {
+        name: this.newCategoryName,
+        addedBy: this.user.id,
+        addedOn: Date.now(),
+        icon: '',
+        events: []
+      };
+      this.newCategoryName = '';
+      await this.angularFirestore.collection('categories').add(categoryData);
+    }
   }
 
   async deleteCategory() {
     try {
-      await this.angularFirestore.doc('/categories/' + this.selectedCategory).delete();
-      this.selectedCategory = null;
+      // check if category is selected
+      if (this.selectedCategory === null) {
+        const toast = await this.toastController.create({
+          message: 'Please select a category to delete!',
+          duration: 3000
+        });
+        toast.present();
+      }
+      else {
+        await this.angularFirestore.doc('/categories/' + this.selectedCategory).delete();
+        this.selectedCategory = null;
+      }
     }
     catch(error) {
       console.log(error);
+    }
+  }
+
+  async editCategory() {
+    // check if category is selected
+    if (this.selectedCategory === null) {
+      const toast = await this.toastController.create({
+        message: 'Please select a category to edit!',
+        duration: 3000
+      });
+      toast.present();
+    }
+    else {
+      // open category edit modal
+      var modal = await this.modalController.create({
+        component: CategoryEditModalComponent,
+        componentProps: {
+          category: this.categories[this.categories.findIndex(x => x.id === this.selectedCategory)],
+          modal // passing modal for dismissing
+        }
+      });
+      return await modal.present();
     }
   }
 }
