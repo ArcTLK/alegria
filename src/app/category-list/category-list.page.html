@@ -4,7 +4,7 @@
   <ion-list>
     <ion-item *ngFor="let category of categories" [routerLink]="['/categories', category.id]" button="true" detail="true" lines="full">
       <ion-thumbnail slot="start">
-        <img [src]="'./assets/' + category.icon">
+        <ion-img [src]="'./assets/' + category.icon"></ion-img>
       </ion-thumbnail>
       <ion-label>{{ category.name }}</ion-label>
       <ion-badge>{{ category.events.length }} events</ion-badge>
