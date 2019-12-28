@@ -12,3 +12,14 @@ export const createUser = functions.auth.user().onCreate(user => {
     registeredOn: Date.now()
   });
 });
+
+export const notifyUsersOfNewBlog = functions.firestore.document('blogs/{blog}').onCreate(blog => {
+  const data: any = blog.data();
+  return admin.messaging().send({
+    data: {
+      title: data.title,
+      description: data.description
+    },
+    topic: 'blogs'
+  })
+});
