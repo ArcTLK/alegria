@@ -59,5 +59,27 @@
         </ion-row>
       </ion-grid>
     </ion-item-group>
+    <ion-item-group *ngIf="editingBlog">
+      <ion-item-divider>
+        <ion-label>Editing {{ editingBlog.title }}</ion-label>
+        <ion-button (click)="saveBlog()" slot="end">Save</ion-button>
+      </ion-item-divider>
+      <ion-item>
+        <ion-label position="floating">Title</ion-label>
+        <ion-input [(ngModel)]="editingBlog.title" placeholder="Type here"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Image</ion-label>
+        <ion-input [(ngModel)]="editingBlog.image" placeholder="Type here"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Description</ion-label>
+        <ion-textarea [(ngModel)]="editingBlog.description" placeholder="Type here"></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Content</ion-label>
+        <ion-textarea [(ngModel)]="editingBlog.content" placeholder="Type here"></ion-textarea>
+      </ion-item>
+    </ion-item-group>
   </div>
 </ion-content>

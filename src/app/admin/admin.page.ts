@@ -23,6 +23,7 @@ export class AdminPage implements OnInit, OnDestroy {
   private categorySubscription: any;
   private blogSub: any;
   public blogPosts: any[] = [];
+  public editingBlog: any = null;
 
   constructor(
     private angularFireAuth: AngularFireAuth,
@@ -227,5 +228,34 @@ export class AdminPage implements OnInit, OnDestroy {
     catch(error) {
       console.log(error);
     }
+  }
+
+  async editBlog() {
+    // check if category is selected
+    if (this.selectedBlog === null) {
+      const toast = await this.toastController.create({
+        message: 'Please select a blog post to delete!',
+        duration: 3000
+      });
+      toast.present();
+    }
+    else {
+      this.editingBlog = this.blogPosts[this.blogPosts.findIndex(x => x.id === this.selectedBlog)];
+    }
+  }
+
+  async saveBlog() {
+    await this.angularFirestore.doc('/blogs/' + this.selectedBlog).update({
+      title: this.editingBlog.title,
+      description: this.editingBlog.description,
+      content: this.editingBlog.content,
+      image: this.editingBlog.image
+    });
+    this.editingBlog = null;
+    const toast = await this.toastController.create({
+      message: 'Blog post edited!',
+      duration: 3000
+    });
+    toast.present();
   }
 }
