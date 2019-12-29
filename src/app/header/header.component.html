@@ -4,7 +4,7 @@
       <ion-back-button defaultHref=""></ion-back-button>
     </ion-buttons>
     <ion-title>{{ title }}</ion-title>
-    <ion-buttons slot="primary">
+    <ion-buttons slot="primary" *ngIf="isLoggedIn">
       <ion-button *ngIf="hasCordovaSupport" size="small" shape="round" [routerLink]="['/qr-scanner']">
         <ion-icon name="qr-scanner"></ion-icon>
       </ion-button>

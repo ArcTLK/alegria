@@ -1,22 +1,26 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { PopoverController, Platform } from '@ionic/angular';
 import { PopoverMenuComponent } from '../popover-menu/popover-menu.component';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   @Input() public title: string;
-  public hasCordovaSupport: Boolean;
+  public hasCordovaSupport: boolean;
   // used to determine display of back button
-  public notOnHomePage: Boolean = false;
+  public notOnHomePage: boolean = false;
+  private userSub: any;
+  public isLoggedIn: boolean = false;
   constructor(
     private router: Router,
     private popoverController: PopoverController,
-    private platform: Platform
+    private platform: Platform,
+    private angularFireAuth: AngularFireAuth
   ) { }
 
   ngOnInit() {
@@ -24,6 +28,12 @@ export class HeaderComponent implements OnInit {
     this.notOnHomePage = this.router.url !== '/home';
     // to display QR code button
     this.hasCordovaSupport = this.platform.is('cordova');
+    this.userSub = this.angularFireAuth.user.subscribe(user => {
+      this.isLoggedIn = user !== null;
+    });
+  }
+  ngOnDestroy() {
+    this.userSub.unsubscribe();
   }
 
   async openMenu(event: any) {

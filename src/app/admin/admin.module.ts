@@ -8,7 +8,6 @@ import { AdminPageRoutingModule } from './admin-routing.module';
 
 import { AdminPage } from './admin.page';
 import { HeaderModule } from '../header/header.module';
-import { LoginModule } from '../login/login.module';
 import { CategoryEditModalComponent } from '../category-edit-modal/category-edit-modal.component';
 
 @NgModule({
@@ -17,8 +16,7 @@ import { CategoryEditModalComponent } from '../category-edit-modal/category-edit
     FormsModule,
     IonicModule,
     AdminPageRoutingModule,
-    HeaderModule,
-    LoginModule
+    HeaderModule
   ],
   declarations: [
     AdminPage,

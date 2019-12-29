@@ -10,8 +10,6 @@ import { AngularFireAuth } from '@angular/fire/auth';
 })
 export class PopoverMenuComponent implements OnInit, OnDestroy {
   private popover: PopoverController;
-  public signedIn: boolean;
-  private userSubscription: any;
   constructor(
     private navParams: NavParams,
     private router: Router,
@@ -20,14 +18,9 @@ export class PopoverMenuComponent implements OnInit, OnDestroy {
     this.popover = this.navParams.get('popover');
   }
   ngOnDestroy() {
-    this.userSubscription.unsubscribe();
+
   }
   ngOnInit() {
-    // subscribe to user changes
-    this.userSubscription = this.angularFireAuth.user.subscribe(user => {
-      // if user is null, not logged in
-      this.signedIn = user !== null;
-    });
   }
 
   navigate(page: string) {
@@ -42,6 +35,8 @@ export class PopoverMenuComponent implements OnInit, OnDestroy {
     this.popover.dismiss();
     // sign out
     this.angularFireAuth.auth.signOut();
+    // redirect to home
+    this.router.navigateByUrl('/home');
   }
 
 }

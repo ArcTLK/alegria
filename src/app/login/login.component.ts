@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NavParams, PopoverController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Platform } from '@ionic/angular';
@@ -12,15 +11,11 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  private popover: PopoverController;
   constructor(
-    private navParams: NavParams,
     private angularFireAuth: AngularFireAuth,
     private googlePlus: GooglePlus,
     private platform: Platform
-  ) {
-    this.popover = this.navParams.get('popover');
-  }
+  ) { }
 
   ngOnInit() {}
 
@@ -32,8 +27,6 @@ export class LoginComponent implements OnInit {
     else {
       this.webGoogleLogin();
     }
-    // close popover
-    this.popover.dismiss();
   }
 
   async nativeGoogleLogin() {

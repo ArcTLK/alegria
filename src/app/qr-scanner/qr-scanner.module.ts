@@ -9,7 +9,6 @@ import { QrScannerPageRoutingModule } from './qr-scanner-routing.module';
 import { QrScannerPage } from './qr-scanner.page';
 import { QRScanner } from '@ionic-native/qr-scanner/ngx';
 import { HeaderModule } from '../header/header.module';
-import { LoginModule } from '../login/login.module';
 
 @NgModule({
   imports: [
@@ -17,8 +16,7 @@ import { LoginModule } from '../login/login.module';
     FormsModule,
     IonicModule,
     QrScannerPageRoutingModule,
-    HeaderModule,
-    LoginModule
+    HeaderModule
   ],
   declarations: [QrScannerPage],
   providers: [

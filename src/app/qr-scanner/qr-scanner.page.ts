@@ -4,8 +4,6 @@ import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { ToastController, Platform } from '@ionic/angular';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { PopoverController } from '@ionic/angular';
-import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-qr-scanner',
@@ -22,8 +20,7 @@ export class QrScannerPage implements OnInit, OnDestroy {
     private toastController: ToastController,
     private platform: Platform,
     private angularFireAuth: AngularFireAuth,
-    private angularFirestore: AngularFirestore,
-    private popoverController: PopoverController
+    private angularFirestore: AngularFirestore
   ) { }
 
   ionViewWillLeave() {
@@ -49,26 +46,8 @@ export class QrScannerPage implements OnInit, OnDestroy {
       if (user !== null) {
         this.openScanner();
         this.userId = user.uid;
-        this.router.navigateByUrl('/qr-scanner');
-      }
-      else {
-        this.openLoginPopover();
-        // redirect to home
-        this.router.navigateByUrl('/home');
       }
     });
-  }
-
-  async openLoginPopover() {
-    var popover = await this.popoverController.create({
-        component: LoginComponent,
-        componentProps: { popover }, // passing popover for closing popover from within
-        animated: true,
-        showBackdrop: true,
-        translucent: true
-    });
-    // display popover
-    return await popover.present();
   }
 
   async openScanner() {

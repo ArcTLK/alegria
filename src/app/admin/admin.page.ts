@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { PopoverController, ModalController, ToastController } from '@ionic/angular';
-import { LoginComponent } from '../login/login.component';
+import { ModalController, ToastController } from '@ionic/angular';
 import { CategoryEditModalComponent } from '../category-edit-modal/category-edit-modal.component';
 
 @Component({
@@ -27,7 +26,6 @@ export class AdminPage implements OnInit, OnDestroy {
 
   constructor(
     private angularFireAuth: AngularFireAuth,
-    private popoverController: PopoverController,
     private angularFirestore: AngularFirestore,
     private modalController: ModalController,
     private toastController: ToastController
@@ -81,8 +79,6 @@ export class AdminPage implements OnInit, OnDestroy {
       }
       else {
         this.isAdmin = false;
-        // prompt log in
-        this.openLoginPopover();
         // unsubscribe
         if (this.userDataSubscription !== null) {
           this.userDataSubscription.unsubscribe();
@@ -90,17 +86,6 @@ export class AdminPage implements OnInit, OnDestroy {
         }
       }
     });
-  }
-  async openLoginPopover() {
-    var popover = await this.popoverController.create({
-        component: LoginComponent,
-        componentProps: { popover }, // passing popover for closing popover from within
-        animated: true,
-        showBackdrop: true,
-        translucent: true
-    });
-    // display popover
-    return await popover.present();
   }
 
   async addCategory() {
