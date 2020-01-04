@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { ModalController, ToastController } from '@ionic/angular';
+import { ModalController, ToastController, IonReorderGroup } from '@ionic/angular';
 import { CategoryEditModalComponent } from '../category-edit-modal/category-edit-modal.component';
 
 @Component({
@@ -24,6 +24,8 @@ export class AdminPage implements OnInit, OnDestroy {
   public blogPosts: any[] = [];
   public editingBlog: any = null;
 
+  @ViewChild(IonReorderGroup, { static: true }) reorderGroup: IonReorderGroup;
+
   constructor(
     private angularFireAuth: AngularFireAuth,
     private angularFirestore: AngularFirestore,
@@ -37,17 +39,18 @@ export class AdminPage implements OnInit, OnDestroy {
       this.userDataSubscription.unsubscribe();
     }
     this.categorySubscription.unsubscribe();
-    this.blogSub.unsubscribe();
+    // unsubscribe listener
+    this.blogSub();
   }
 
   ngOnInit() {
     // subscribe to blogs
-    this.blogSub = this.angularFirestore.collection('blogs').snapshotChanges().subscribe(response => {
-      this.blogPosts = response.map(value => {
-        const document: any = value.payload.doc.data();
+    this.blogSub = this.angularFirestore.collection('blogs').ref.orderBy('order').onSnapshot(response => {
+      this.blogPosts = response.docs.map(value => {
+        const document: any = value.data();
         return {
           title: document.title,
-          id: value.payload.doc.id,
+          id: value.id,
           image: document.image,
           description: document.description,
           content: document.content
@@ -172,13 +175,16 @@ export class AdminPage implements OnInit, OnDestroy {
       toast.present();
     }
     else {
+      // count total blogs
+      const totalBlogs: number = this.blogPosts.length;
       const blogData: any = {
         title: this.newBlogTitle,
         addedBy: this.user.id,
         addedOn: Date.now(),
         image: '',
         description: '',
-        content: ''
+        content: '',
+        order: totalBlogs
       };
       this.newBlogTitle = '';
       await this.angularFirestore.collection('blogs').add(blogData);
@@ -190,47 +196,26 @@ export class AdminPage implements OnInit, OnDestroy {
     }
   }
 
-  async deleteBlog() {
+  async deleteBlog(blog: any) {
     try {
-      // check if category is selected
-      if (this.selectedBlog === null) {
-        const toast = await this.toastController.create({
-          message: 'Please select a blog post to delete!',
-          duration: 3000
-        });
-        toast.present();
-      }
-      else {
-        await this.angularFirestore.doc('/blogs/' + this.selectedBlog).delete();
-        this.selectedBlog = null;
-        const toast = await this.toastController.create({
-          message: 'Blog post deleted!',
-          duration: 3000
-        });
-        toast.present();
-      }
+      await this.angularFirestore.doc('/blogs/' + blog.id).delete();
+      const toast = await this.toastController.create({
+        message: 'Blog post deleted!',
+        duration: 3000
+      });
+      toast.present();
     }
     catch(error) {
       console.log(error);
     }
   }
 
-  async editBlog() {
-    // check if category is selected
-    if (this.selectedBlog === null) {
-      const toast = await this.toastController.create({
-        message: 'Please select a blog post to delete!',
-        duration: 3000
-      });
-      toast.present();
-    }
-    else {
-      this.editingBlog = this.blogPosts[this.blogPosts.findIndex(x => x.id === this.selectedBlog)];
-    }
+  async editBlog(blog: any) {
+    this.editingBlog = this.blogPosts[this.blogPosts.findIndex(x => x.id === blog.id)]
   }
 
   async saveBlog() {
-    await this.angularFirestore.doc('/blogs/' + this.selectedBlog).update({
+    await this.angularFirestore.doc('/blogs/' + this.editingBlog.id).update({
       title: this.editingBlog.title,
       description: this.editingBlog.description,
       content: this.editingBlog.content,
@@ -239,6 +224,26 @@ export class AdminPage implements OnInit, OnDestroy {
     this.editingBlog = null;
     const toast = await this.toastController.create({
       message: 'Blog post edited!',
+      duration: 3000
+    });
+    toast.present();
+  }
+
+  async doReorder(event: any) {
+    // Finish the reorder and position the item in the DOM based on
+    // where the gesture ended. Update the items variable to the
+    // new order of items
+    this.blogPosts = event.detail.complete(this.blogPosts);
+    // loop and adjust order
+    for(let i = 0; i < this.blogPosts.length; ++i) {
+      this.blogPosts[i].order = i;
+      // save to firestore
+      this.angularFirestore.doc('/blogs/' + this.blogPosts[i].id).update({
+        order: i
+      });
+    }
+    const toast = await this.toastController.create({
+      message: 'Blog posts have been reordered!',
       duration: 3000
     });
     toast.present();

@@ -42,22 +42,6 @@
         <ion-input clearInput [(ngModel)]="newBlogTitle" placeholder="Enter name"></ion-input>
         <ion-button size="small" (click)="addBlog()">Add</ion-button>
       </ion-item>
-      <ion-item>
-        <ion-label>Existing</ion-label>
-        <ion-select placeholder="Select Blog" [(ngModel)]="selectedBlog">
-          <ion-select-option *ngFor="let blog of blogPosts" [value]="blog.id">{{ blog.title }}</ion-select-option>
-        </ion-select>
-      </ion-item>
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <ion-button size="block" (click)="editBlog()">Edit</ion-button>
-          </ion-col>
-          <ion-col>
-            <ion-button size="block" (click)="deleteBlog()">Delete</ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
     </ion-item-group>
     <ion-item-group *ngIf="editingBlog">
       <ion-item-divider>
@@ -81,5 +65,13 @@
         <ion-textarea [(ngModel)]="editingBlog.content" placeholder="Type here"></ion-textarea>
       </ion-item>
     </ion-item-group>
+    <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
+      <ion-item *ngFor="let blog of blogPosts">
+        <ion-label>{{ blog.title }}</ion-label>
+        <ion-button (click)="deleteBlog(blog)">Delete</ion-button>
+        <ion-button (click)="editBlog(blog)">Edit</ion-button>
+        <ion-reorder slot="end"></ion-reorder>
+      </ion-item>
+    </ion-reorder-group>
   </div>
 </ion-content>

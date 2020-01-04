@@ -16,13 +16,15 @@ export class BlogListPage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.blogSub = this.angularFirestore.collection('blogs').snapshotChanges().subscribe(response => {
-      this.blogPosts = response.map(value => {
-        const document: any = value.payload.doc.data();
+    this.blogSub = this.angularFirestore.collection('blogs').ref.orderBy('order').onSnapshot(response => {
+      this.blogPosts = response.docs.map(value => {
+        const document: any = value.data();
         return {
           title: document.title,
-          id: value.payload.doc.id,
-          description: document.description
+          id: value.id,
+          image: document.image,
+          description: document.description,
+          content: document.content
         };
       });
       // display message
@@ -34,7 +36,8 @@ export class BlogListPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.blogSub.unsubscribe();
+    // unsubscribe listener
+    this.blogSub();
   }
 
 }
