@@ -21,7 +21,7 @@
     "@angular/platform-browser-dynamic": "~8.1.2",
     "@angular/router": "~8.1.2",
     "@ionic-native/core": "^5.18.0",
-    "@ionic-native/firebase": "^5.19.1",
+    "@ionic-native/firebase-x": "^5.19.1",
     "@ionic-native/google-plus": "^5.18.0",
     "@ionic-native/native-storage": "^5.18.0",
     "@ionic-native/network": "^5.18.0",
@@ -32,7 +32,9 @@
     "cordova-android": "^8.1.0",
     "cordova-ios": "^5.1.1",
     "cordova-plugin-add-swift-support": "^2.0.2",
-    "cordova-plugin-firebase": "^2.0.5",
+    "cordova-plugin-androidx": "^1.0.2",
+    "cordova-plugin-androidx-adapter": "^1.1.0",
+    "cordova-plugin-firebasex": "^7.0.1",
     "cordova-plugin-googleplus": "^8.2.1",
     "cordova-plugin-nativestorage": "^2.3.2",
     "cordova-plugin-network-information": "^2.0.2",
@@ -92,16 +94,29 @@
       "cordova-plugin-nativestorage": {},
       "cordova-plugin-network-information": {},
       "cordova-plugin-qrscanner": {},
-      "cordova-plugin-firebase": {},
       "cordova-plugin-googleplus": {
         "REVERSED_CLIENT_ID": "com.googleusercontent.apps.333534123809-2qf0eaumko199f6n97ddqd59q2pdhsnc",
         "WEB_APPLICATION_CLIENT_ID": "333534123809-gt4vitsh0mganrsoja8et01ofa4et8m6.apps.googleusercontent.com",
         "PLAY_SERVICES_VERSION": "15.0.1"
+      },
+      "cordova-plugin-firebasex": {
+        "FIREBASE_ANALYTICS_COLLECTION_ENABLED": "true",
+        "FIREBASE_PERFORMANCE_COLLECTION_ENABLED": "true",
+        "FIREBASE_CRASHLYTICS_COLLECTION_ENABLED": "true",
+        "ANDROID_ICON_ACCENT": "#FF00FFFF",
+        "ANDROID_PLAY_SERVICES_TAGMANAGER_VERSION": "17.0.0",
+        "ANDROID_FIREBASE_ANALYTICS_VERSION": "17.2.1",
+        "ANDROID_FIREBASE_MESSAGING_VERSION": "20.0.0",
+        "ANDROID_FIREBASE_CONFIG_VERSION": "19.0.3",
+        "ANDROID_FIREBASE_PERF_VERSION": "19.0.1",
+        "ANDROID_FIREBASE_AUTH_VERSION": "19.1.0",
+        "ANDROID_CRASHLYTICS_VERSION": "2.10.1",
+        "ANDROID_CRASHLYTICS_NDK_VERSION": "2.1.1"
       }
     },
     "platforms": [
-      "android",
-      "ios"
+      "ios",
+      "android"
     ]
   }
 }

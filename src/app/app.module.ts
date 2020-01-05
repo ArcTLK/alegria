@@ -1,4 +1,4 @@
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { RouteReuseStrategy } from '@angular/router';
@@ -16,6 +16,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireFunctionsModule } from '@angular/fire/functions';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
+import { FirebaseX } from '@ionic-native/firebase-x/ngx';
 import { environment } from '../environments/environment';
 
 @NgModule({
@@ -39,7 +40,8 @@ import { environment } from '../environments/environment';
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     NativeStorage,
     GooglePlus,
-    Network
+    Network,
+    FirebaseX
   ],
   bootstrap: [AppComponent]
 })

@@ -23,6 +23,8 @@ export class AdminPage implements OnInit, OnDestroy {
   private blogSub: any;
   public blogPosts: any[] = [];
   public editingBlog: any = null;
+  private editingNewBlog: boolean = false;
+  private uneditedBlog: any;
 
   @ViewChild(IonReorderGroup, { static: true }) reorderGroup: IonReorderGroup;
 
@@ -187,12 +189,8 @@ export class AdminPage implements OnInit, OnDestroy {
         order: totalBlogs
       };
       this.newBlogTitle = '';
-      await this.angularFirestore.collection('blogs').add(blogData);
-      const toast = await this.toastController.create({
-        message: 'New Blog post added!',
-        duration: 3000
-      });
-      toast.present();
+      this.editingNewBlog = true;
+      this.editingBlog = blogData;
     }
   }
 
@@ -211,19 +209,36 @@ export class AdminPage implements OnInit, OnDestroy {
   }
 
   async editBlog(blog: any) {
-    this.editingBlog = this.blogPosts[this.blogPosts.findIndex(x => x.id === blog.id)]
+    this.editingNewBlog = false;
+    this.editingBlog = this.blogPosts[this.blogPosts.findIndex(x => x.id === blog.id)];
+    this.uneditedBlog = JSON.parse(JSON.stringify(this.editingBlog));
+  }
+
+  async cancelSaveBlog() {
+    this.editingBlog = null;
+    if (!this.editingNewBlog) {
+      this.blogPosts[this.blogPosts.findIndex(x => x.id === this.uneditedBlog.id)] = this.uneditedBlog;
+    }
   }
 
   async saveBlog() {
-    await this.angularFirestore.doc('/blogs/' + this.editingBlog.id).update({
-      title: this.editingBlog.title,
-      description: this.editingBlog.description,
-      content: this.editingBlog.content,
-      image: this.editingBlog.image
-    });
+    let message: string;
+    if (this.editingNewBlog) {
+      await this.angularFirestore.collection('blogs').add(this.editingBlog);
+      message = 'Blog post created!';
+    }
+    else {
+      await this.angularFirestore.doc('/blogs/' + this.editingBlog.id).update({
+        title: this.editingBlog.title,
+        description: this.editingBlog.description,
+        content: this.editingBlog.content,
+        image: this.editingBlog.image
+      });
+      message = 'Blog post edited!';
+    }
     this.editingBlog = null;
     const toast = await this.toastController.create({
-      message: 'Blog post edited!',
+      message,
       duration: 3000
     });
     toast.present();

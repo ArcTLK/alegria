@@ -13,13 +13,23 @@ export const createUser = functions.auth.user().onCreate(user => {
   });
 });
 
-export const notifyUsersOfNewBlog = functions.firestore.document('blogs/{blog}').onCreate(blog => {
+export const notifyUsersOfNewBlog = functions.firestore.document('blogs/{blog}').onCreate(async blog => {
   const data: any = blog.data();
-  return admin.messaging().send({
-    data: {
+  // gather tokens
+  const tokens: any[] = [];
+  const querySnapshot = await admin.firestore().collection('devices').get();
+
+  querySnapshot.forEach(documentSnapshot => {
+    tokens.push(documentSnapshot.id);
+  });
+
+  return admin.messaging().sendToDevice(tokens, {
+    notification: {
       title: data.title,
-      description: data.description
+      body: data.description
     },
-    topic: 'blogs'
-  })
+    data: {
+      redirectTo: '/blogs/' + blog.id
+    }
+  });
 });
