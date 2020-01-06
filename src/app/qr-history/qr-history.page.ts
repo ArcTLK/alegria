@@ -24,6 +24,7 @@ export class QrHistoryPage implements OnInit, OnDestroy {
               const data = value.data();
               value.time = (new Date(data.time)).toLocaleString();
               value.code = data.code;
+              value.validity = data.validity;
               return value;
             });
           }

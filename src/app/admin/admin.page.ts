@@ -10,15 +10,13 @@ import { CategoryEditModalComponent } from '../category-edit-modal/category-edit
   styleUrls: ['./admin.page.scss'],
 })
 export class AdminPage implements OnInit, OnDestroy {
-  public isAdmin: boolean = false;
   private userSubscription: any;
-  private userDataSubscription: any = null;
   public categories: any[] = [];
   public selectedCategory: any = null;
   public selectedBlog: any = null;
   public newCategoryName: string = '';
   public newBlogTitle: string = '';
-  private user: any;
+  private userId: string;
   private categorySubscription: any;
   private blogSub: any;
   public blogPosts: any[] = [];
@@ -37,9 +35,6 @@ export class AdminPage implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.userSubscription.unsubscribe();
-    if (this.userDataSubscription !== null) {
-      this.userDataSubscription.unsubscribe();
-    }
     this.categorySubscription.unsubscribe();
     // unsubscribe listener
     this.blogSub();
@@ -73,22 +68,8 @@ export class AdminPage implements OnInit, OnDestroy {
     });
     // subscribe to user changes
     this.userSubscription = this.angularFireAuth.user.subscribe(user => {
-      // prompt login if not logged in
       if (user !== null) {
-        //check if user is admin
-        this.userDataSubscription = this.angularFirestore.doc('/users/' + user.uid).snapshotChanges().subscribe(response => {
-          this.user = response.payload.data();
-          this.user.id = response.payload.id;
-          this.isAdmin = this.user.admin;
-        });
-      }
-      else {
-        this.isAdmin = false;
-        // unsubscribe
-        if (this.userDataSubscription !== null) {
-          this.userDataSubscription.unsubscribe();
-          this.userDataSubscription = null;
-        }
+        this.userId = user.uid;
       }
     });
   }
@@ -105,7 +86,7 @@ export class AdminPage implements OnInit, OnDestroy {
     else {
       const categoryData: any = {
         name: this.newCategoryName,
-        addedBy: this.user.id,
+        addedBy: this.userId,
         addedOn: Date.now(),
         icon: '',
         events: []
@@ -181,7 +162,7 @@ export class AdminPage implements OnInit, OnDestroy {
       const totalBlogs: number = this.blogPosts.length;
       const blogData: any = {
         title: this.newBlogTitle,
-        addedBy: this.user.id,
+        addedBy: this.userId,
         addedOn: Date.now(),
         image: '',
         description: '',

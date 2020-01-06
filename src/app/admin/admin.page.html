@@ -1,78 +1,71 @@
 <app-header [title]="'Admin Portal'"></app-header>
 
 <ion-content fullscreen>
-  <div *ngIf="!isAdmin">
-    <br>
-    <br>
-    <h1 class="typewriter">Hmm.. you don't seem to be an admin...</h1>
-  </div>
-  <div *ngIf="isAdmin">
-    <ion-item-group>
-      <ion-item-divider>
-        <ion-label>Manage Categories</ion-label>
-      </ion-item-divider>
-      <ion-item>
-        <ion-label>New</ion-label>
-        <ion-input clearInput [(ngModel)]="newCategoryName" placeholder="Enter name"></ion-input>
-        <ion-button size="small" (click)="addCategory()">Add</ion-button>
-      </ion-item>
-      <ion-item>
-        <ion-label>Existing</ion-label>
-        <ion-select placeholder="Select Category" [(ngModel)]="selectedCategory">
-          <ion-select-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</ion-select-option>
-        </ion-select>
-      </ion-item>
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <ion-button size="block" (click)="editCategory()">Edit</ion-button>
-          </ion-col>
-          <ion-col>
-            <ion-button size="block" (click)="deleteCategory()">Delete</ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-item-group>
-    <ion-item-group>
-      <ion-item-divider>
-        <ion-label>Manage Blogs</ion-label>
-      </ion-item-divider>
-      <ion-item>
-        <ion-label>New</ion-label>
-        <ion-input clearInput [(ngModel)]="newBlogTitle" placeholder="Enter name"></ion-input>
-        <ion-button size="small" (click)="addBlog()">Add</ion-button>
-      </ion-item>
-    </ion-item-group>
-    <ion-item-group *ngIf="editingBlog">
-      <ion-item-divider>
-        <ion-label>Editing {{ editingBlog.title }}</ion-label>
-        <ion-button (click)="saveBlog()" slot="end">Save</ion-button>
-        <ion-button (click)="cancelSaveBlog()" slot="end">Cancel</ion-button>
-      </ion-item-divider>
-      <ion-item>
-        <ion-label position="floating">Title</ion-label>
-        <ion-input [(ngModel)]="editingBlog.title" placeholder="Type here"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Image</ion-label>
-        <ion-input [(ngModel)]="editingBlog.image" placeholder="Type here"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Description</ion-label>
-        <ion-textarea [(ngModel)]="editingBlog.description" placeholder="Type here"></ion-textarea>
-      </ion-item>
-      <ion-item>
-        <ion-label position="floating">Content</ion-label>
-        <ion-textarea [(ngModel)]="editingBlog.content" placeholder="Type here"></ion-textarea>
-      </ion-item>
-    </ion-item-group>
-    <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
-      <ion-item *ngFor="let blog of blogPosts">
-        <ion-label>{{ blog.title }}</ion-label>
-        <ion-button (click)="deleteBlog(blog)">Delete</ion-button>
-        <ion-button (click)="editBlog(blog)">Edit</ion-button>
-        <ion-reorder slot="end"></ion-reorder>
-      </ion-item>
-    </ion-reorder-group>
-  </div>
+  <ion-item-group>
+    <ion-item-divider>
+      <ion-label>Manage Categories</ion-label>
+    </ion-item-divider>
+    <ion-item>
+      <ion-label>New</ion-label>
+      <ion-input clearInput [(ngModel)]="newCategoryName" placeholder="Enter name"></ion-input>
+      <ion-button size="small" (click)="addCategory()">Add</ion-button>
+    </ion-item>
+    <ion-item>
+      <ion-label>Existing</ion-label>
+      <ion-select placeholder="Select Category" [(ngModel)]="selectedCategory">
+        <ion-select-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-button size="block" (click)="editCategory()">Edit</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button size="block" (click)="deleteCategory()">Delete</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-item-group>
+  <ion-item-group>
+    <ion-item-divider>
+      <ion-label>Manage Blogs</ion-label>
+    </ion-item-divider>
+    <ion-item>
+      <ion-label>New</ion-label>
+      <ion-input clearInput [(ngModel)]="newBlogTitle" placeholder="Enter name"></ion-input>
+      <ion-button size="small" (click)="addBlog()">Add</ion-button>
+    </ion-item>
+  </ion-item-group>
+  <ion-item-group *ngIf="editingBlog">
+    <ion-item-divider>
+      <ion-label>Editing {{ editingBlog.title }}</ion-label>
+      <ion-button (click)="saveBlog()" slot="end">Save</ion-button>
+      <ion-button (click)="cancelSaveBlog()" slot="end">Cancel</ion-button>
+    </ion-item-divider>
+    <ion-item>
+      <ion-label position="floating">Title</ion-label>
+      <ion-input [(ngModel)]="editingBlog.title" placeholder="Type here"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Image</ion-label>
+      <ion-input [(ngModel)]="editingBlog.image" placeholder="Type here"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Description</ion-label>
+      <ion-textarea [(ngModel)]="editingBlog.description" placeholder="Type here"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Content</ion-label>
+      <ion-textarea [(ngModel)]="editingBlog.content" placeholder="Type here"></ion-textarea>
+    </ion-item>
+  </ion-item-group>
+  <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
+    <ion-item *ngFor="let blog of blogPosts">
+      <ion-label>{{ blog.title }}</ion-label>
+      <ion-button (click)="deleteBlog(blog)">Delete</ion-button>
+      <ion-button (click)="editBlog(blog)">Edit</ion-button>
+      <ion-reorder slot="end"></ion-reorder>
+    </ion-item>
+  </ion-reorder-group>
 </ion-content>

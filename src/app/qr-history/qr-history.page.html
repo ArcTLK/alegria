@@ -4,7 +4,7 @@
   <ion-list>
     <ion-item *ngFor="let code of QRCodes">
       <ion-label>{{ code.code }}</ion-label>
-      <ion-note slot="end">{{ code.time }}</ion-note>
+      <ion-note slot="end">{{ code.validity }}</ion-note>
     </ion-item>
   </ion-list>
 </ion-content>

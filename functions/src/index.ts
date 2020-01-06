@@ -33,3 +33,46 @@ export const notifyUsersOfNewBlog = functions.firestore.document('blogs/{blog}')
     }
   });
 });
+
+export const addQRPoints = functions.firestore.document('QRCodes/{QRCode}').onCreate(async code => {
+  const data: any = code.data();
+  // check if code is valid
+  const querySnapshot = await admin.firestore().collection('validQRCodes').where('code', '==', data.code).get();
+  if (!querySnapshot.empty) {
+    // check if already scanned
+    const qrCodeSnapshot = await admin.firestore().collection('QRCodes')
+      .where('code', '==', data.code)
+      .where('scannedBy', '==', data.scannedBy)
+      .get();
+    if (qrCodeSnapshot.size === 1) {
+      const userDocument = await admin.firestore().doc('users/' + data.scannedBy).get();
+      let points = userDocument.get('points');
+      if (points === undefined) {
+        points = 1;
+      }
+      else {
+        ++points;
+      }
+      // update user
+      await admin.firestore().doc('users/' + data.scannedBy).update({
+        points
+      });
+      // update code
+      await code.ref.update({
+        validity: 'Valid'
+      });
+    }
+    else {
+      // update code
+      await code.ref.update({
+        validity: 'Duplicate'
+      });
+    }
+  }
+  else {
+    // update code
+    await code.ref.update({
+      validity: 'Invalid'
+    });
+  }
+});

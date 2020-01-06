@@ -16,6 +16,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireFunctionsModule } from '@angular/fire/functions';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { FirebaseX } from '@ionic-native/firebase-x/ngx';
 import { environment } from '../environments/environment';
 
@@ -41,7 +42,8 @@ import { environment } from '../environments/environment';
     NativeStorage,
     GooglePlus,
     Network,
-    FirebaseX
+    FirebaseX,
+    InAppBrowser
   ],
   bootstrap: [AppComponent]
 })

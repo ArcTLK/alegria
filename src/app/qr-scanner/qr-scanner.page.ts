@@ -4,6 +4,7 @@ import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { ToastController, Platform } from '@ionic/angular';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 
 @Component({
   selector: 'app-qr-scanner',
@@ -20,7 +21,8 @@ export class QrScannerPage implements OnInit, OnDestroy {
     private toastController: ToastController,
     private platform: Platform,
     private angularFireAuth: AngularFireAuth,
-    private angularFirestore: AngularFirestore
+    private angularFirestore: AngularFirestore,
+    private splashScreen: SplashScreen
   ) { }
 
   ionViewWillLeave() {
@@ -65,14 +67,12 @@ export class QrScannerPage implements OnInit, OnDestroy {
         this.angularFirestore.collection('QRCodes').add({
           code: text,
           scannedBy: this.userId,
-          time: Date.now()
+          time: Date.now(),
+          validity: 'Verification pending'
         });
-        const toast = await this.toastController.create({
-          message: 'Congrats! You\'ve scanned a QR Code!',
-          duration: 3000
-        });
-        toast.present();
-        this.router.navigateByUrl('/home');
+        // open QR Code
+        window.open(text, '_self');
+        this.splashScreen.hide();
       });
     }
     else if (status.denied) {

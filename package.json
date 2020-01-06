@@ -23,6 +23,7 @@
     "@ionic-native/core": "^5.18.0",
     "@ionic-native/firebase-x": "^5.19.1",
     "@ionic-native/google-plus": "^5.18.0",
+    "@ionic-native/in-app-browser": "^5.19.1",
     "@ionic-native/native-storage": "^5.18.0",
     "@ionic-native/network": "^5.18.0",
     "@ionic-native/qr-scanner": "^5.18.0",
@@ -36,6 +37,7 @@
     "cordova-plugin-androidx-adapter": "^1.1.0",
     "cordova-plugin-firebasex": "^7.0.1",
     "cordova-plugin-googleplus": "^8.2.1",
+    "cordova-plugin-inappbrowser": "^3.1.0",
     "cordova-plugin-nativestorage": "^2.3.2",
     "cordova-plugin-network-information": "^2.0.2",
     "cordova-plugin-qrscanner": "^3.0.1",
@@ -112,7 +114,8 @@
         "ANDROID_FIREBASE_AUTH_VERSION": "19.1.0",
         "ANDROID_CRASHLYTICS_VERSION": "2.10.1",
         "ANDROID_CRASHLYTICS_NDK_VERSION": "2.1.1"
-      }
+      },
+      "cordova-plugin-inappbrowser": {}
     },
     "platforms": [
       "ios",

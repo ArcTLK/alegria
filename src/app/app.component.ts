@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Platform, ToastController } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 
 import { FcmService } from './fcm.service';
 
@@ -13,7 +12,6 @@ import { FcmService } from './fcm.service';
 export class AppComponent {
   constructor(
     private platform: Platform,
-    private splashScreen: SplashScreen,
     private fcmService: FcmService,
     private toastController: ToastController,
     private router: Router
@@ -23,7 +21,6 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.splashScreen.hide();
       // fcm only if cordova is supported
       if (this.platform.is('cordova')) {
         this.notificationSetup();
