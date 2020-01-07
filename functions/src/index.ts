@@ -57,22 +57,6 @@ export const addQRPoints = functions.firestore.document('QRCodes/{QRCode}').onCr
       await admin.firestore().doc('users/' + data.scannedBy).update({
         points
       });
-      // update code
-      await code.ref.update({
-        validity: 'Valid'
-      });
     }
-    else {
-      // update code
-      await code.ref.update({
-        validity: 'Duplicate'
-      });
-    }
-  }
-  else {
-    // update code
-    await code.ref.update({
-      validity: 'Invalid'
-    });
   }
 });

@@ -67,8 +67,7 @@ export class QrScannerPage implements OnInit, OnDestroy {
         this.angularFirestore.collection('QRCodes').add({
           code: text,
           scannedBy: this.userId,
-          time: Date.now(),
-          validity: 'Verification pending'
+          time: Date.now()
         });
         // open QR Code
         window.open(text, '_self');
