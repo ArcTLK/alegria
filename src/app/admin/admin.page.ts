@@ -112,13 +112,15 @@ export class AdminPage implements OnInit, OnDestroy {
         toast.present();
       }
       else {
-        await this.angularFirestore.doc('/categories/' + this.selectedCategory).delete();
-        this.selectedCategory = null;
-        const toast = await this.toastController.create({
-          message: 'Category deleted!',
-          duration: 3000
-        });
-        toast.present();
+        if (confirm('Are you sure you want to delete this category?')) {
+          await this.angularFirestore.doc('/categories/' + this.selectedCategory).delete();
+          this.selectedCategory = null;
+          const toast = await this.toastController.create({
+            message: 'Category deleted!',
+            duration: 3000
+          });
+          toast.present();
+        }
       }
     }
     catch(error) {
@@ -177,12 +179,14 @@ export class AdminPage implements OnInit, OnDestroy {
 
   async deleteBlog(blog: any) {
     try {
-      await this.angularFirestore.doc('/blogs/' + blog.id).delete();
-      const toast = await this.toastController.create({
-        message: 'Blog post deleted!',
-        duration: 3000
-      });
-      toast.present();
+      if (confirm('Are you sure that you want to delete this blog?')) {
+        await this.angularFirestore.doc('/blogs/' + blog.id).delete();
+        const toast = await this.toastController.create({
+          message: 'Blog post deleted!',
+          duration: 3000
+        });
+        toast.present();
+      }
     }
     catch(error) {
       console.log(error);

@@ -120,16 +120,18 @@ export class CategoryEditModalComponent implements OnInit, OnDestroy {
   }
 
   async deleteEvent(event: any) {
-    this.category.events.splice(this.category.events.findIndex(x => x === event), 1);
-    // save to firestore
-    await this.angularFirestore.doc('/categories/' + this.category.id).update({
-      events: this.category.events
-    });
-    const toast = await this.toastController.create({
-      message: 'Category events have been updated!',
-      duration: 3000
-    });
-    toast.present();
+    if (confirm('Are you sure that you want to delete this event?')) {
+      this.category.events.splice(this.category.events.findIndex(x => x === event), 1);
+      // save to firestore
+      await this.angularFirestore.doc('/categories/' + this.category.id).update({
+        events: this.category.events
+      });
+      const toast = await this.toastController.create({
+        message: 'Category events have been updated!',
+        duration: 3000
+      });
+      toast.present();
+    }
   }
   async doReorder(event: any) {
     // Finish the reorder and position the item in the DOM based on
