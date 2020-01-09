@@ -1,9 +1,12 @@
 <app-header [title]="'Alegria 2020'"></app-header>
 
 <ion-content>
+  <div style="padding: 25px; margin: auto; text-align: center">
+    <img src="./assets/icon/favicon.png" />
+  </div>
   <div *ngIf="isLoggedIn">
-    <ion-button [routerLink]="['/categories']" expand="block">View Categories</ion-button>
-    <ion-button [routerLink]="['/blogs']" expand="block">View Blogs</ion-button>
+    <ion-button [routerLink]="['/categories']" expand="block" size="large" shape="round">View Categories</ion-button>
+    <ion-button [routerLink]="['/blogs']" expand="block" expand="full" size="large" shape="round">View Blogs</ion-button>
   </div>
   <app-login *ngIf="!isLoggedIn"></app-login>
 </ion-content>
