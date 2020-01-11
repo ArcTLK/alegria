@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
-import { ToastController, Platform } from '@ionic/angular';
+import { ToastController, Platform, LoadingController } from '@ionic/angular';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @Component({
   selector: 'app-qr-scanner',
@@ -22,7 +23,9 @@ export class QrScannerPage implements OnInit, OnDestroy {
     private platform: Platform,
     private angularFireAuth: AngularFireAuth,
     private angularFirestore: AngularFirestore,
-    private splashScreen: SplashScreen
+    private androidPermissions: AndroidPermissions,
+    private loadingController: LoadingController,
+    private inAppBrowser: InAppBrowser
   ) { }
 
   ionViewWillLeave() {
@@ -30,10 +33,13 @@ export class QrScannerPage implements OnInit, OnDestroy {
     this.qrScanner.pausePreview();
   }
   ionViewWillEnter() {
-    if (this.userId !== null) {
-      window.document.querySelector('ion-app').classList.add('cameraView');
-      this.qrScanner.resumePreview();
-    }
+    // user subscription
+    this.userSub = this.angularFireAuth.user.subscribe(user => {
+      if (user !== null) {
+        this.userId = user.uid;
+        this.openScanner();
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -41,27 +47,41 @@ export class QrScannerPage implements OnInit, OnDestroy {
     this.scanSub.unsubscribe();
     this.qrScanner.destroy();
     this.userSub.unsubscribe();
+    this.userId = null;
   }
   ngOnInit() {
-    // user subscription
-    this.userSub = this.angularFireAuth.user.subscribe(user => {
-      if (user !== null) {
-        this.openScanner();
-        this.userId = user.uid;
-      }
-    });
   }
 
   async openScanner() {
     // wait for platform to be ready to use qr scanner
     await this.platform.ready();
+    const result = await this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.CAMERA);
+    if (result.hasPermission === false) {
+      const result2 = await this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.CAMERA);
+      if (result2.hasPermission) {
+        const loading = await this.loadingController.create({
+          message: 'Initializing QR scanner...'
+        });
+        await loading.present();
+        return location.reload();
+      }
+      else {
+        // permission was denied, but not permanently. You can ask for permission again at a later time.
+        const toast = await this.toastController.create({
+          message: 'Camera permission has been denied!',
+          duration: 2000
+        });
+        await toast.present();
+        return location.href = '/home';
+      }
+    }
     // ask for permission to use camera
     const status: QRScannerStatus = await this.qrScanner.prepare();
+    console.log(status);
     if (status.authorized) {
       // show camera preview
+      await this.qrScanner.show();
       window.document.querySelector('ion-app').classList.add('cameraView');
-      this.qrScanner.show();
-
       // start scanning
       this.scanSub = this.qrScanner.scan().subscribe(async (text: string) => {
         this.angularFirestore.collection('QRCodes').add({
@@ -69,9 +89,8 @@ export class QrScannerPage implements OnInit, OnDestroy {
           scannedBy: this.userId,
           time: Date.now()
         });
-        // open QR Code
-        window.open(text, '_self');
-        this.splashScreen.hide();
+        // open QRCode as a URL
+        this.inAppBrowser.create(text, '_blank', 'location=no,zoom=no');
       });
     }
     else if (status.denied) {

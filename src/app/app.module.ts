@@ -19,6 +19,7 @@ import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { FirebaseX } from '@ionic-native/firebase-x/ngx';
 import { environment } from '../environments/environment';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { environment } from '../environments/environment';
     GooglePlus,
     Network,
     FirebaseX,
-    InAppBrowser
+    InAppBrowser,
+    AndroidPermissions
   ],
   bootstrap: [AppComponent]
 })
