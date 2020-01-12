@@ -29,15 +29,20 @@ export class QrScannerPage implements OnInit, OnDestroy {
   ) { }
 
   ionViewWillLeave() {
+    console.log(4);
     window.document.querySelector('ion-app').classList.remove('cameraView');
     this.qrScanner.pausePreview();
+    console.log(5);
   }
   ionViewWillEnter() {
     // user subscription
+    console.log(1);
     this.userSub = this.angularFireAuth.user.subscribe(user => {
       if (user !== null) {
         this.userId = user.uid;
+        console.log(2);
         this.openScanner();
+        console.log(3);
       }
     });
   }
@@ -51,7 +56,19 @@ export class QrScannerPage implements OnInit, OnDestroy {
   }
   ngOnInit() {
   }
-
+  async startScan() {
+    // start scanning
+    this.scanSub = this.qrScanner.scan().subscribe(async (text: string) => {
+      this.angularFirestore.collection('QRCodes').add({
+        code: text,
+        scannedBy: this.userId,
+        time: Date.now()
+      });
+      // open QRCode as a URL
+      const ref = this.inAppBrowser.create(text, '_blank', 'location=no,zoom=no');
+      ref.on('exit').subscribe(() => this.startScan());
+    });
+  }
   async openScanner() {
     // wait for platform to be ready to use qr scanner
     await this.platform.ready();
@@ -77,21 +94,11 @@ export class QrScannerPage implements OnInit, OnDestroy {
     }
     // ask for permission to use camera
     const status: QRScannerStatus = await this.qrScanner.prepare();
-    console.log(status);
     if (status.authorized) {
       // show camera preview
       await this.qrScanner.show();
       window.document.querySelector('ion-app').classList.add('cameraView');
-      // start scanning
-      this.scanSub = this.qrScanner.scan().subscribe(async (text: string) => {
-        this.angularFirestore.collection('QRCodes').add({
-          code: text,
-          scannedBy: this.userId,
-          time: Date.now()
-        });
-        // open QRCode as a URL
-        this.inAppBrowser.create(text, '_blank', 'location=no,zoom=no');
-      });
+      await this.startScan();
     }
     else if (status.denied) {
       // camera permission was permanently denied

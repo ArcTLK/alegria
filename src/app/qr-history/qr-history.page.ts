@@ -18,7 +18,7 @@ export class QrHistoryPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.userSub = this.angularFireAuth.user.subscribe(user => {
       if (user !== null) {
-        this.angularFirestore.collection('QRCodes').ref.where('scannedBy', '==', user.uid).onSnapshot({
+        this.angularFirestore.collection('QRCodes').ref.where('scannedBy', '==', user.uid).orderBy('time', 'desc').onSnapshot({
           next: data => {
             this.QRCodes = data.docs.map((value: any) => {
               const data = value.data();

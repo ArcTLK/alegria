@@ -37,7 +37,7 @@ export const notifyUsersOfNewBlog = functions.firestore.document('blogs/{blog}')
 export const addQRPoints = functions.firestore.document('QRCodes/{QRCode}').onCreate(async code => {
   const data: any = code.data();
   // check if code is valid
-  const querySnapshot = await admin.firestore().collection('validQRCodes').where('code', '==', data.code).get();
+  const querySnapshot = await admin.firestore().collection('ValidQRCodes').where('code', '==', data.code).get();
   if (!querySnapshot.empty) {
     // check if already scanned
     const qrCodeSnapshot = await admin.firestore().collection('QRCodes')
