@@ -11,7 +11,7 @@ export class EventPage implements OnInit, OnDestroy {
   private paramMapSub: any;
   public event: any = {
     name: 'Loading...',
-    content: 'Loading'
+    content: ''
   };
   constructor(
     private angularFirestore: AngularFirestore,

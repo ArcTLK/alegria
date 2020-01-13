@@ -53,11 +53,11 @@
     </ion-item>
     <ion-item>
       <ion-label position="floating">Description</ion-label>
-      <ion-textarea [(ngModel)]="editingBlog.description" placeholder="Type here"></ion-textarea>
+      <ion-textarea autoGrow="true" [(ngModel)]="editingBlog.description" placeholder="Type here"></ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Content</ion-label>
-      <ion-textarea [(ngModel)]="editingBlog.content" placeholder="Type here"></ion-textarea>
+      <ion-textarea autoGrow="true" [(ngModel)]="editingBlog.content" placeholder="Type here"></ion-textarea>
     </ion-item>
   </ion-item-group>
   <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">

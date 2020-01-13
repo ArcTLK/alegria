@@ -89,7 +89,9 @@ export class CategoryEditModalComponent implements OnInit, OnDestroy {
     this.editingEvent = {
       name: '',
       description: '',
-      content: ''
+      content: '',
+      image: '',
+      code: ''
     };
     this.category.events.push(this.editingEvent);
   }

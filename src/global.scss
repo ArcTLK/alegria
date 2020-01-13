@@ -29,3 +29,27 @@ ion-app.cameraView ion-content,
 ion-app.cameraView .nav-decor {
   --background: none transparent !important;
 }
+
+html, body {
+  height: 100%;
+}
+.design-box {
+  background-image: linear-gradient(to bottom right, #7852a9, white);
+  height: 100%;
+}
+
+.design-padding {
+  padding: 20px;
+  margin: 10px;
+  border-radius: 15px;
+  text-align: justify;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border: yellow 1px #000;
+  background: #fff;
+}
+
+/* On mouse-over, add a deeper shadow */
+.design-padding:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}

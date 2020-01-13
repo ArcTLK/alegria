@@ -31,12 +31,20 @@
         <ion-button (click)="cancelEdit()">Cancel</ion-button>
       </ion-item-divider>
       <ion-item>
+        <ion-label position="floating">Code</ion-label>
+        <ion-input [(ngModel)]="editingEvent.code" placeholder="Enter code"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Image</ion-label>
+        <ion-input [(ngModel)]="editingEvent.image" placeholder="Enter image"></ion-input>
+      </ion-item>
+      <ion-item>
         <ion-label position="floating">Description</ion-label>
-        <ion-textarea [(ngModel)]="editingEvent.description" placeholder="Enter description"></ion-textarea>
+        <ion-textarea autoGrow="true" [(ngModel)]="editingEvent.description" placeholder="Enter description"></ion-textarea>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Content</ion-label>
-        <ion-textarea [(ngModel)]="editingEvent.content" placeholder="Enter HTML content"></ion-textarea>
+        <ion-textarea autoGrow="true" [(ngModel)]="editingEvent.content" placeholder="Enter HTML content"></ion-textarea>
       </ion-item>
     </ion-item-group>
     <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
