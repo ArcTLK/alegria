@@ -46,6 +46,10 @@ const routes: Routes = [
   {
     path: 'about',
     loadChildren: () => import('./about/about.module').then( m => m.AboutPageModule)
+  },
+  {
+    path: 'artists',
+    loadChildren: () => import('./artist-list/artist-list.module').then( m => m.ArtistListPageModule)
   }
 ];
 @NgModule({

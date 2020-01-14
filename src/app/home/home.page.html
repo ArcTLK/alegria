@@ -7,6 +7,7 @@
   <div *ngIf="isLoggedIn">
     <ion-button [routerLink]="['/categories']" expand="block" size="large" shape="round">View Categories</ion-button>
     <ion-button [routerLink]="['/blogs']" expand="block" size="large" shape="round">View Blogs</ion-button>
+    <ion-button [routerLink]="['/artists']" expand="block" size="large" shape="round">View Artists</ion-button>
   </div>
   <app-login *ngIf="!isLoggedIn"></app-login>
 </ion-content>

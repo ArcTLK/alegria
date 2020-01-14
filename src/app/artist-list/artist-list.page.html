@@ -1,0 +1,12 @@
+<app-header [title]="'Artist Announcements'"></app-header>
+
+<ion-content>
+  <ion-card *ngFor="let post of blogPosts" [routerLink]="['/blogs', post.id]">
+    <ion-card-header>
+      <ion-card-title>{{ post.title }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      {{ post.description }}
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -169,7 +169,8 @@ export class AdminPage implements OnInit, OnDestroy {
         image: '',
         description: '',
         content: '',
-        order: totalBlogs
+        order: totalBlogs,
+        type: 'blog'
       };
       this.newBlogTitle = '';
       this.editingNewBlog = true;
@@ -217,7 +218,8 @@ export class AdminPage implements OnInit, OnDestroy {
         title: this.editingBlog.title,
         description: this.editingBlog.description,
         content: this.editingBlog.content,
-        image: this.editingBlog.image
+        image: this.editingBlog.image,
+        type: this.editingBlog.type
       });
       message = 'Blog post edited!';
     }

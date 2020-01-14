@@ -48,6 +48,13 @@
       <ion-input [(ngModel)]="editingBlog.title" placeholder="Type here"></ion-input>
     </ion-item>
     <ion-item>
+      <ion-label position="floating">Type</ion-label>
+      <ion-select value="blog" [(ngModel)]="editingBlog.type">
+        <ion-select-option value="blog">Blog</ion-select-option>
+        <ion-select-option value="artist">Artist announcement</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
       <ion-label position="floating">Image</ion-label>
       <ion-input [(ngModel)]="editingBlog.image" placeholder="Type here"></ion-input>
     </ion-item>
