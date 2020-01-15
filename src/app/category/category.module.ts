@@ -8,6 +8,7 @@ import { CategoryPageRoutingModule } from './category-routing.module';
 
 import { CategoryPage } from './category.page';
 import { HeaderModule } from '../header/header.module';
+import { IonicImageLoader } from 'ionic-image-loader';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { HeaderModule } from '../header/header.module';
     FormsModule,
     IonicModule,
     CategoryPageRoutingModule,
-    HeaderModule
+    HeaderModule,
+    IonicImageLoader
   ],
   declarations: [CategoryPage]
 })

@@ -2,7 +2,7 @@
 
 <ion-content>
   <ion-card *ngFor="let event of category.events; index as i" [routerLink]="['/categories', category.id, 'events', i]">
-    <img *ngIf="event.image !== undefined && event.image !== ''" [src]="event.image" />
+    <img-loader [src]="event.image" *ngIf="event.image !== undefined && event.image !== ''" useImg></img-loader>
     <ion-card-header>
       <ion-card-title>{{ event.name }}</ion-card-title>
       <ion-card-subtitle *ngIf="event.code !== undefined && event.code !== ''">{{ event.code }}</ion-card-subtitle>

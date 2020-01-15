@@ -20,6 +20,9 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { FirebaseX } from '@ionic-native/firebase-x/ngx';
 import { environment } from '../environments/environment';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { IonicImageLoader } from 'ionic-image-loader';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
+
 
 @NgModule({
   declarations: [
@@ -35,7 +38,8 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
     AngularFireAuthModule,
     AngularFirestoreModule.enablePersistence(),
     AngularFireFunctionsModule,
-    AngularFireMessagingModule
+    AngularFireMessagingModule,
+    IonicImageLoader.forRoot()
   ],
   providers: [
     SplashScreen,
@@ -45,7 +49,8 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
     Network,
     FirebaseX,
     InAppBrowser,
-    AndroidPermissions
+    AndroidPermissions,
+    WebView
   ],
   bootstrap: [AppComponent]
 })
